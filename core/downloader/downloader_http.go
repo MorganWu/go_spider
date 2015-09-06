@@ -17,7 +17,7 @@ import (
 	"net/http"
 	"net/url"
 	//"fmt"
-	"golang.org/x/net/html/charset"
+	// "golang.org/x/net/html/charset"
 	//    "regexp"
 	//    "golang.org/x/net/html"
 	"compress/gzip"
@@ -165,12 +165,13 @@ func (this *HttpDownloader) changeCharsetGoIconv(charset string, sor io.ReadClos
 // Charset auto determine. Use golang.org/x/net/html/charset. Get page body and change it to utf-8
 func (this *HttpDownloader) changeCharsetEncodingAuto(contentTypeStr string, sor io.ReadCloser) string {
 	var err error
-	destReader, err := charset.NewReader(sor, contentTypeStr)
+	destReader := sor
+	// destReader, err := charset.NewReader(sor, contentTypeStr)
 
-	if err != nil {
-		mlog.LogInst().LogError(err.Error())
-		destReader = sor
-	}
+	// if err != nil {
+	// 	mlog.LogInst().LogError(err.Error())
+	// 	destReader = sor
+	// }
 
 	var sorbody []byte
 	if sorbody, err = ioutil.ReadAll(destReader); err != nil {
@@ -193,12 +194,13 @@ func (this *HttpDownloader) changeCharsetEncodingAutoGzipSupport(contentTypeStr 
 		return ""
 	}
 	defer gzipReader.Close()
-	destReader, err := charset.NewReader(gzipReader, contentTypeStr)
+	// destReader, err := charset.NewReader(gzipReader, contentTypeStr)
+	// if err != nil {
+	// 	mlog.LogInst().LogError(err.Error())
+	// 	destReader = sor
+	// }
 
-	if err != nil {
-		mlog.LogInst().LogError(err.Error())
-		destReader = sor
-	}
+	destReader := gzipReader
 
 	var sorbody []byte
 	if sorbody, err = ioutil.ReadAll(destReader); err != nil {
