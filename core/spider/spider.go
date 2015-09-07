@@ -15,6 +15,7 @@ import (
 	//"net/http"
 	"time"
 	//"fmt"
+	"strings"
 )
 
 type Spider struct {
@@ -38,6 +39,8 @@ type Spider struct {
 	startSleeptime uint
 	endSleeptime   uint
 	sleeptype      string
+	urlWhiteList   map[string]bool
+	urlBlackList   map[string]bool
 }
 
 // Spider is scheduler module for all the other modules, like downloader, pipeline, scheduler and etc.
@@ -45,7 +48,11 @@ type Spider struct {
 func NewSpider(pageinst page_processer.PageProcesser, taskname string) *Spider {
 	mlog.StraceInst().Open()
 
-	ap := &Spider{taskname: taskname, pPageProcesser: pageinst}
+	ap := &Spider{taskname: taskname,
+		pPageProcesser: pageinst,
+		urlWhiteList:   make(map[string]bool),
+		urlBlackList:   make(map[string]bool),
+	}
 
 	// init filelog.
 	ap.CloseFileLog()
@@ -314,6 +321,10 @@ func (this *Spider) AddRequest(req *request.Request) *Spider {
 		mlog.LogInst().LogError("request is empty")
 		return this
 	}
+	if !this.IsUrlAllowded(req) {
+		return this
+	}
+
 	this.pScheduler.Push(req)
 	return this
 }
@@ -323,6 +334,55 @@ func (this *Spider) AddRequests(reqs []*request.Request) *Spider {
 	for _, req := range reqs {
 		this.AddRequest(req)
 	}
+	return this
+}
+func (this *Spider) isUrlWhiteListEnabled() bool {
+	return len(this.urlWhiteList) != 0
+}
+func (this *Spider) isUrlWhiteList(urlStr string) bool {
+	if _, ok := this.urlWhiteList[urlStr]; ok {
+		return true
+	}
+	for whiteUrlPattern, _ := range this.urlWhiteList {
+		if whiteUrlPattern == "" {
+			continue
+		}
+
+		if strings.Contains(urlStr, whiteUrlPattern) {
+			return true
+		}
+
+	}
+	return false
+}
+
+func (this *Spider) isUrlBlackList(urlStr string) bool {
+	if _, ok := this.urlBlackList[urlStr]; ok {
+		return true
+	}
+	for blackUrlPattern, _ := range this.urlBlackList {
+		if blackUrlPattern == "" {
+			continue
+		}
+		if strings.Contains(urlStr, blackUrlPattern) {
+			return true
+		}
+	}
+	return false
+}
+func (this *Spider) IsUrlAllowded(req *request.Request) bool {
+	if !this.isUrlWhiteListEnabled() {
+		return !this.isUrlBlackList(req.GetUrl())
+	}
+	return this.isUrlWhiteList(req.GetUrl())
+}
+
+func (this *Spider) AddBlackList(urlStr string) *Spider {
+	this.urlBlackList[urlStr] = true
+	return this
+}
+func (this *Spider) AddWhiteList(urlStr string) *Spider {
+	this.urlWhiteList[urlStr] = true
 	return this
 }
 
