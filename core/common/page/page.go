@@ -5,9 +5,9 @@ package page
 import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/bitly/go-simplejson"
-	"github.com/jixiuf/go_spider/core/common/mlog"
-	"github.com/jixiuf/go_spider/core/common/page_items"
-	"github.com/jixiuf/go_spider/core/common/request"
+	"github.com/morganwu/go_spider/core/common/mlog"
+	"github.com/morganwu/go_spider/core/common/page_items"
+	"github.com/morganwu/go_spider/core/common/request"
 	"net/http"
 	"strings"
 	//"fmt"

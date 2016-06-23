@@ -3,9 +3,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/jixiuf/go_spider/core/common/page"
-	"github.com/jixiuf/go_spider/core/common/request"
-	"github.com/jixiuf/go_spider/core/spider"
+	"github.com/morganwu/go_spider/core/common/page"
+	"github.com/morganwu/go_spider/core/common/request"
+	"github.com/morganwu/go_spider/core/spider"
 	"strings"
 )
 

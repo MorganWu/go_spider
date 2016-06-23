@@ -6,7 +6,7 @@
 package page_processer
 
 import (
-	"github.com/jixiuf/go_spider/core/common/page"
+	"github.com/morganwu/go_spider/core/common/page"
 )
 
 type PageProcesser interface {

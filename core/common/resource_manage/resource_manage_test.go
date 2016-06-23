@@ -2,7 +2,7 @@
 package resource_manage_test
 
 import (
-	"github.com/jixiuf/go_spider/core/common/resource_manage"
+	"github.com/morganwu/go_spider/core/common/resource_manage"
 	"testing"
 )
 

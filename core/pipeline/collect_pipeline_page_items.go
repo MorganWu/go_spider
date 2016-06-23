@@ -1,8 +1,8 @@
 package pipeline
 
 import (
-	"github.com/jixiuf/go_spider/core/common/com_interfaces"
-	"github.com/jixiuf/go_spider/core/common/page_items"
+	"github.com/morganwu/go_spider/core/common/com_interfaces"
+	"github.com/morganwu/go_spider/core/common/page_items"
 )
 
 type CollectPipelinePageItems struct {

@@ -6,7 +6,7 @@
 package scheduler
 
 import (
-	"github.com/jixiuf/go_spider/core/common/request"
+	"github.com/morganwu/go_spider/core/common/request"
 )
 
 type Scheduler interface {

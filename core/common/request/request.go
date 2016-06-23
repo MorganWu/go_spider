@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/jixiuf/go_spider/core/common/mlog"
+	"github.com/morganwu/go_spider/core/common/mlog"
 )
 
 // Request represents object waiting for being crawled.
